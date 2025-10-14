@@ -3,14 +3,17 @@
 #include <string>
 using namespace std;
 
-struct Stack {
-    int top;
-    int capacity;
-    string* data;
+struct SNode {
+    string data;
+    SNode* next;
 };
 
-void CreateStack(Stack* stack, int capacity = 10);
-void ResizeStack(Stack* stack);
+struct Stack {
+    SNode* top;
+    int size;
+};
+
+void CreateStack(Stack* stack);
 void SPush(Stack* stack, string data);
 string SPop(Stack* stack);
 void PrintStack(Stack* stack);

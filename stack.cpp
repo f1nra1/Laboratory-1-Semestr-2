@@ -1,42 +1,46 @@
 #include "stack.h"
 #include <iostream>
 
-void CreateStack(Stack* stack, int capacity) {
-    stack -> data = new string[capacity];
-    stack -> top = -1;
-    stack -> capacity = capacity;
-}
-
-void ResizeStack(Stack* stack) {
-    int newCapacity = stack -> capacity * 2;
-    string* newData = new string[newCapacity];
-    for (int i = 0; i <= stack -> top; i++) {
-        newData[i] = stack -> data[i];
-    }
-    delete[] stack -> data;
-    stack -> data = newData;
-    stack -> capacity = newCapacity;
+void CreateStack(Stack* stack) {
+    stack -> top = nullptr;
+    stack -> size = 0;
 }
 
 void SPush(Stack* stack, string data) {
-    if (stack -> top >= stack -> capacity - 1) ResizeStack(stack);
-    stack -> data[++stack -> top] = data;
+    SNode* newNode = new SNode();
+    newNode -> data = data;
+    newNode -> next = stack -> top;
+    stack -> top = newNode;
+    stack -> size++;
 }
 
 string SPop(Stack* stack) {
-    if (stack -> top < 0) return "";
-    return stack -> data[stack -> top--];
+    if (stack -> top == nullptr) {
+        return "";
+    }
+    SNode* temp = stack -> top;
+    string data = temp -> data;
+    stack -> top = stack -> top -> next;
+    stack -> size--;
+    delete temp;
+    return data;
 }
 
 void PrintStack(Stack* stack) {
     cout << "[";
-    for (int i = 0; i <= stack -> top; i++) {
-        cout << stack -> data[i];
-        if (i < stack -> top) cout << ", ";
+    SNode* current = stack -> top;
+    bool first = true;
+    while (current != nullptr) {
+        if (!first) cout << ", ";
+        cout << current -> data;
+        current = current -> next;
+        first = false;
     }
     cout << "]" << endl;
 }
 
 void DestroyStack(Stack* stack) {
-    if (stack) delete[] stack -> data;
+    while (stack -> top != nullptr) {
+        SPop(stack);
+    }
 }

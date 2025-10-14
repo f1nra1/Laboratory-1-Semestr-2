@@ -3,15 +3,15 @@
 #include <string>
 using namespace std;
 
-struct Node {
+struct QNode {
     string data;
-    Node* next;
-    Node* prev;
+    QNode* next;
+    QNode* prev;
 };
 
 struct Queue {
-    Node* head;
-    Node* tail;
+    QNode* head;
+    QNode* tail;
     int size;
 };
 

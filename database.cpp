@@ -36,15 +36,23 @@ void SaveDatabase() {
     }
 
     for (auto& p : db.stacks) {
-        file << "STACK " << p.first << " " << (p.second -> top + 1) << "\n";
-        for (int i = 0; i <= p.second -> top; i++) {
-            file << p.second -> data[i] << "\n";
+        file << "STACK " << p.first << " " << p.second -> size << "\n";
+        SNode* current = p.second -> top;
+        int count = p.second -> size;
+        SNode** temp = new SNode*[count];
+        for (int i = 0; i < count; i++) {
+            temp[i] = current;
+            current = current -> next;
         }
+        for (int i = count - 1; i >= 0; i--) {
+            file << temp[i] -> data << "\n";
+        }
+        delete[] temp;
     }
 
     for (auto& p : db.queues) {
         file << "QUEUE " << p.first << " " << p.second -> size << "\n";
-        Node* current = p.second -> head;
+        QNode* current = p.second -> head;
         while (current) {
             file << current -> data << "\n";
             current = current -> next;
@@ -116,9 +124,13 @@ void LoadDatabase() {
         } else if (type == "STACK") {
             Stack* stack = new Stack;
             CreateStack(stack);
+            vector<string> tempStack;
             for (int i = 0; i < count; i++) {
                 getline(file, line);
-                SPush(stack, line);
+                tempStack.push_back(line);
+            }
+            for (int i = count - 1; i >= 0; i--) {
+                SPush(stack, tempStack[i]);
             }
             db.stacks[name] = stack;
         } else if (type == "QUEUE") {
@@ -190,9 +202,9 @@ void ExecuteQuery(string query) {
         }
     }
 
-    // ================================== Массив ==================================
+        // ================================== Массив ==================================
 
-    else if (command == "MPUSHBACK") {
+    else if (command == "MPUSH") {
         if (db.arrays.find(name) != db.arrays.end()) {
             MPushBack(db.arrays[name], arg1);
             cout << " -> Выполнено" << endl;
@@ -244,7 +256,7 @@ void ExecuteQuery(string query) {
         }
     }
 
-    // ================================== Односвязный список ==================================
+        // ================================== Односвязный список ==================================
 
     else if (command == "FPUSHHEAD") {
         if (db.flists.find(name) != db.flists.end()) {
@@ -254,7 +266,7 @@ void ExecuteQuery(string query) {
             cout << " -> Ошибка: список не создан" << endl;
         }
     }
-    else if (command == "FPUSHBACK") {
+    else if (command == "FPUSHTAIL") {
         if (db.flists.find(name) != db.flists.end()) {
             FPushBack(db.flists[name], arg1);
             cout << " -> Выполнено" << endl;
@@ -311,7 +323,7 @@ void ExecuteQuery(string query) {
         }
     }
 
-    // ================================== Двусвязный список ==================================
+        // ================================== Двусвязный список ==================================
 
     else if (command == "LPUSHHEAD") {
         if (db.llists.find(name) != db.llists.end()) {
@@ -378,7 +390,7 @@ void ExecuteQuery(string query) {
         }
     }
 
-    // ================================== Стек ==================================
+        // ================================== Стек ==================================
 
     else if (command == "SPUSH") {
         if (db.stacks.find(name) != db.stacks.end()) {
@@ -397,7 +409,7 @@ void ExecuteQuery(string query) {
         }
     }
 
-    // ================================== Очередь ==================================
+        // ================================== Очередь ==================================
 
     else if (command == "QPUSH") {
         if (db.queues.find(name) != db.queues.end()) {
@@ -416,7 +428,7 @@ void ExecuteQuery(string query) {
         }
     }
 
-    // ================================== Дерево ==================================
+        // ================================== Дерево ==================================
 
     else if (command == "TPUSH") {
         if (db.trees.find(name) != db.trees.end()) {
@@ -446,7 +458,7 @@ void ExecuteQuery(string query) {
         }
     }
 
-    // ================================== Вывод ==================================
+        // ================================== Вывод ==================================
 
     else if (command == "PRINT") {
         if (db.arrays.find(name) != db.arrays.end()) {

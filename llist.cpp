@@ -40,7 +40,6 @@ void LPushTail(LList* llist, string data) {
 }
 
 void LPushBefore(LList* llist, string data, string element) {
-    if (!llist -> head) return;
     if (llist -> head -> data == element) {
         LPushHead(llist, data);
         return;
