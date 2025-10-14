@@ -44,8 +44,10 @@ void SaveDatabase() {
 
     for (auto& p : db.queues) {
         file << "QUEUE " << p.first << " " << p.second -> size << "\n";
-        for (int i = 0; i < p.second -> size; i++) {
-            file << p.second -> data[(p.second -> head + i) % p.second -> capacity] << "\n";
+        Node* current = p.second -> head;
+        while (current) {
+            file << current -> data << "\n";
+            current = current -> next;
         }
     }
 
@@ -149,287 +151,287 @@ void ExecuteQuery(string query) {
         if (db.arrays.find(name) == db.arrays.end()) {
             db.arrays[name] = new MArray;
             CreateMArray(db.arrays[name]);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         }
     }
     else if (command == "FCREATE") {
         if (db.flists.find(name) == db.flists.end()) {
             db.flists[name] = new FList;
             CreateFList(db.flists[name]);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         }
     }
     else if (command == "LCREATE") {
         if (db.llists.find(name) == db.llists.end()) {
             db.llists[name] = new LList;
             CreateLList(db.llists[name]);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         }
     }
     else if (command == "SCREATE") {
         if (db.stacks.find(name) == db.stacks.end()) {
             db.stacks[name] = new Stack;
             CreateStack(db.stacks[name]);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         }
     }
     else if (command == "QCREATE") {
         if (db.queues.find(name) == db.queues.end()) {
             db.queues[name] = new Queue;
             CreateQueue(db.queues[name]);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         }
     }
     else if (command == "TCREATE") {
         if (db.trees.find(name) == db.trees.end()) {
             db.trees[name] = new BinaryTree;
             CreateTree(db.trees[name]);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         }
     }
 
-        // ================================== Массив ==================================
+    // ================================== Массив ==================================
 
     else if (command == "MPUSHBACK") {
         if (db.arrays.find(name) != db.arrays.end()) {
             MPushBack(db.arrays[name], arg1);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: массив не создан" << endl;
+            cout << " -> Ошибка: массив не создан" << endl;
         }
     }
     else if (command == "MPUSHINDEX") {
         if (db.arrays.find(name) != db.arrays.end()) {
             MPushIndex(db.arrays[name], arg1, stoi(arg2));
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: массив не создан" << endl;
+            cout << " -> Ошибка: массив не создан" << endl;
         }
     }
     else if (command == "MGET") {
         if (db.arrays.find(name) != db.arrays.end()) {
             string element = MGet(db.arrays[name], stoi(arg1));
             if (element.empty()) {
-                cout << "   ->    Ошибка: неверный индекс" << endl;
+                cout << " -> Ошибка: неверный индекс" << endl;
             } else {
-                cout << "   ->    " << element << endl;
+                cout << " -> " << element << endl;
             }
         } else {
-            cout << "   ->    Ошибка: массив не создан" << endl;
+            cout << " -> Ошибка: массив не создан" << endl;
         }
     }
     else if (command == "MPOPINDEX") {
         if (db.arrays.find(name) != db.arrays.end()) {
             MPopIndex(db.arrays[name], stoi(arg1));
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: массив не создан" << endl;
+            cout << " -> Ошибка: массив не создан" << endl;
         }
     }
     else if (command == "MREPLACE") {
         if (db.arrays.find(name) != db.arrays.end()) {
             MReplace(db.arrays[name], arg1, stoi(arg2));
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: массив не создан" << endl;
+            cout << " -> Ошибка: массив не создан" << endl;
         }
     }
     else if (command == "MSIZE") {
         if (db.arrays.find(name) != db.arrays.end()) {
-            cout << "   ->    " << MGetSize(db.arrays[name]) << endl;
+            cout << " -> " << MGetSize(db.arrays[name]) << endl;
         } else {
-            cout << "   ->    Ошибка: массив не создан" << endl;
+            cout << " -> Ошибка: массив не создан" << endl;
         }
     }
 
-        // ================================== Однофвязный список ==================================
+    // ================================== Односвязный список ==================================
 
     else if (command == "FPUSHHEAD") {
         if (db.flists.find(name) != db.flists.end()) {
             FPushHead(db.flists[name], arg1);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "FPUSHBACK") {
         if (db.flists.find(name) != db.flists.end()) {
             FPushBack(db.flists[name], arg1);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "FPUSHBEFORE") {
         if (db.flists.find(name) != db.flists.end()) {
             FPushBefore(db.flists[name], arg1, arg2);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "FPUSHAFTER") {
         if (db.flists.find(name) != db.flists.end()) {
             FPushAfter(db.flists[name], arg1, arg2);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "FPOPHEAD") {
         if (db.flists.find(name) != db.flists.end()) {
             FPopHead(db.flists[name]);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "FPOPTAIL") {
         if (db.flists.find(name) != db.flists.end()) {
             FPopTail(db.flists[name]);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "FPOPELEM") {
         if (db.flists.find(name) != db.flists.end()) {
             FPopElement(db.flists[name], arg1);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "FSEARCH") {
         if (db.flists.find(name) != db.flists.end()) {
             bool found = FSearch(db.flists[name], arg1);
-            cout << "   ->    " << (found ? "TRUE" : "FALSE") << endl;
+            cout << " -> " << (found ? "TRUE" : "FALSE") << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
 
-        // ================================== Двусвязный список ==================================
+    // ================================== Двусвязный список ==================================
 
     else if (command == "LPUSHHEAD") {
         if (db.llists.find(name) != db.llists.end()) {
             LPushHead(db.llists[name], arg1);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "LPUSHTAIL") {
         if (db.llists.find(name) != db.llists.end()) {
             LPushTail(db.llists[name], arg1);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "LPUSHBEFORE") {
         if (db.llists.find(name) != db.llists.end()) {
             LPushBefore(db.llists[name], arg1, arg2);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "LPUSHAFTER") {
         if (db.llists.find(name) != db.llists.end()) {
             LPushAfter(db.llists[name], arg1, arg2);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "LPOPHEAD") {
         if (db.llists.find(name) != db.llists.end()) {
             LPopHead(db.llists[name]);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "LPOPTAIL") {
         if (db.llists.find(name) != db.llists.end()) {
             LPopTail(db.llists[name]);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "LPOPELEM") {
         if (db.llists.find(name) != db.llists.end()) {
             LPopElement(db.llists[name], arg1);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " -> Ошибка: список не создан" << endl;
         }
     }
     else if (command == "LSEARCH") {
         if (db.llists.find(name) != db.llists.end()) {
             bool found = LSearch(db.llists[name], arg1);
-            cout << "   ->    " << (found ? "TRUE" : "FALSE") << endl;
+            cout << " -> " << (found ? "TRUE" : "FALSE") << endl;
         } else {
-            cout << "   ->    Ошибка: список не создан" << endl;
+            cout << " ->  Ошибка: список не создан" << endl;
         }
     }
 
-        // ================================== Стек ==================================
+    // ================================== Стек ==================================
 
     else if (command == "SPUSH") {
         if (db.stacks.find(name) != db.stacks.end()) {
             SPush(db.stacks[name], arg1);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: стек не создан" << endl;
+            cout << " -> Ошибка: стек не создан" << endl;
         }
     }
     else if (command == "SPOP") {
         if (db.stacks.find(name) != db.stacks.end()) {
             string result = SPop(db.stacks[name]);
-            cout << "   ->    " << result << endl;
+            cout << " -> " << result << endl;
         } else {
-            cout << "   ->    Ошибка: стек не создан" << endl;
+            cout << " -> Ошибка: стек не создан" << endl;
         }
     }
 
-        // ================================== Очередь ==================================
+    // ================================== Очередь ==================================
 
     else if (command == "QPUSH") {
         if (db.queues.find(name) != db.queues.end()) {
             QPush(db.queues[name], arg1);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: очередь не создана" << endl;
+            cout << " -> Ошибка: очередь не создана" << endl;
         }
     }
     else if (command == "QPOP") {
         if (db.queues.find(name) != db.queues.end()) {
             string result = QPop(db.queues[name]);
-            cout << "   ->    " << result << endl;
+            cout << " -> " << result << endl;
         } else {
-            cout << "   ->    Ошибка: очередь не создана" << endl;
+            cout << " -> Ошибка: очередь не создана" << endl;
         }
     }
 
-        // ================================== Дерево ==================================
+    // ================================== Дерево ==================================
 
     else if (command == "TPUSH") {
         if (db.trees.find(name) != db.trees.end()) {
             TPush(db.trees[name], arg1);
-            cout << "   ->   Выполнено" << endl;
+            cout << " -> Выполнено" << endl;
         } else {
-            cout << "   ->    Ошибка: дерево не создано" << endl;
+            cout << " -> Ошибка: дерево не создано" << endl;
         }
     }
     else if (command == "TSEARCH") {
         if (db.trees.find(name) != db.trees.end()) {
             bool found = TSearch(db.trees[name], arg1);
-            cout << "   ->    " << (found ? "Найдено" : "Не найдено") << endl;
+            cout << " -> " << (found ? "Найдено" : "Не найдено") << endl;
         } else {
-            cout << "   ->    Ошибка: дерево не создано" << endl;
+            cout << " -> Ошибка: дерево не создано" << endl;
         }
     }
     else if (command == "TISCOMPLETE") {
@@ -444,7 +446,7 @@ void ExecuteQuery(string query) {
         }
     }
 
-        // ================================== Вывод ==================================
+    // ================================== Вывод ==================================
 
     else if (command == "PRINT") {
         if (db.arrays.find(name) != db.arrays.end()) {

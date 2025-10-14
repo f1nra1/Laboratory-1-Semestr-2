@@ -3,13 +3,19 @@
 #include <string>
 using namespace std;
 
-struct Queue {
-    int head, tail, capacity, size;
-    string* data;
+struct Node {
+    string data;
+    Node* next;
+    Node* prev;
 };
 
-void CreateQueue(Queue* queue, int capacity = 10);
-void ResizeQueue(Queue* queue);
+struct Queue {
+    Node* head;
+    Node* tail;
+    int size;
+};
+
+void CreateQueue(Queue* queue);
 void QPush(Queue* queue, string data);
 string QPop(Queue* queue);
 void PrintQueue(Queue* queue);
