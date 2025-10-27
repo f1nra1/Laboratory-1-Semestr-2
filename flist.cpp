@@ -33,7 +33,6 @@ void FPushBack(FList* flist, string data) {
 }
 
 void FPushBefore(FList* flist, string data, string element) {
-    if (!flist -> head) return;
     if (flist -> head -> data == element) {
         FPushHead(flist, data);
         return;

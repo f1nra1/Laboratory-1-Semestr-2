@@ -7,6 +7,7 @@ struct TNode {
     string data;
     TNode* left;
     TNode* right;
+    int height;
 };
 
 struct BinaryTree {
@@ -15,10 +16,9 @@ struct BinaryTree {
 };
 
 void CreateTree(BinaryTree* tree);
-TNode* CreateNode(string data);
 void TPush(BinaryTree* tree, string data);
+void TDelete(BinaryTree* tree, string data);
 bool TSearch(BinaryTree* tree, string data);
-bool isComplete(BinaryTree* tree);
 void PrintTree(TNode* root);
 void preOrder(TNode* node);
 void inOrder(TNode* node);

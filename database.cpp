@@ -428,11 +428,19 @@ void ExecuteQuery(string query) {
         }
     }
 
-        // ================================== Дерево ==================================
+    // ================================== Дерево ==================================
 
     else if (command == "TPUSH") {
         if (db.trees.find(name) != db.trees.end()) {
             TPush(db.trees[name], arg1);
+            cout << " -> Выполнено" << endl;
+        } else {
+            cout << " -> Ошибка: дерево не создано" << endl;
+        }
+    }
+    else if (command == "TDELETE") {
+        if (db.trees.find(name) != db.trees.end()) {
+            TDelete(db.trees[name], arg1);
             cout << " -> Выполнено" << endl;
         } else {
             cout << " -> Ошибка: дерево не создано" << endl;
@@ -446,19 +454,8 @@ void ExecuteQuery(string query) {
             cout << " -> Ошибка: дерево не создано" << endl;
         }
     }
-    else if (command == "TISCOMPLETE") {
-        if (db.trees.find(name) != db.trees.end()) {
-            if (isComplete(db.trees[name])) {
-                cout << " -> Дерево является полным бинарным деревом" << endl;
-            } else {
-                cout << " -> Дерево не является полным бинарным деревом" << endl;
-            }
-        } else {
-            cout << " -> Дерево не найдено" << endl;
-        }
-    }
 
-        // ================================== Вывод ==================================
+    // ================================== Вывод ==================================
 
     else if (command == "PRINT") {
         if (db.arrays.find(name) != db.arrays.end()) {

@@ -6,7 +6,6 @@ using namespace std;
 struct QNode {
     string data;
     QNode* next;
-    QNode* prev;
 };
 
 struct Queue {
